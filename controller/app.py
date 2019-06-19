@@ -12,8 +12,6 @@ ALLOWED_EXTENSIONS = set(['zip'])
 
 app = Flask(__name__)
 FlaskUUID(app)
-app.config['UPLOAD_FOLDER'] = '/Users/aakanksha.mudgal/Documents/controller/functions/'
-app.config['UNZIP_FOLDER'] = '/Users/aakanksha.mudgal/Documents/controller/functions/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 def allowed_file(filename):
@@ -32,19 +30,19 @@ def validate(req_data):
     zip_ref = zipfile.ZipFile("./temp.zip","r")
     zip_ref.extractall("extracted_file")
     flag1, flag2 = False, False
-    for filename in os.listdir("extracted_file/sourcepkg"): #TODO
-        print(filename, "\n")
-        if filename == "requirements.txt":
-            flag1 = True
-        if filename == "index.py":
-            flag2 = True
+    for filename in os.listdir("extracted_file"): 
+        for files in os.listdir("extracted_file/"+ filename):
+            if files == "requirements.txt":
+                flag1 = True
+            if files == "index.py":
+                flag2 = True           
     if flag1 and flag2:
         return True
     return False
 
 @app.route('/functions/<uuid(strict=False):id>',  methods = ['GET'])
 def get_function_info(id):
-    return get_db_entry(id)
+    return jsonify(get_db_entry(id))
     
 @app.route('/functions', methods = ['GET'])
 def get_all_functions():

@@ -30,7 +30,12 @@ def add_db_entry(req_data, uuid):
 
 def get_db_entry(function_uuid):
     functions = get_functions_collection_instance()
-    return functions.findOne({uuid : function_uuid})
+    cursor = functions.find({'uuid' : function_uuid})
+    for document in cursor:
+        del document['_id']
+        del document['artifact']
+        print("Document: ", document)
+        return document
 
 def get_all_documents():
     functions = get_functions_collection_instance()
