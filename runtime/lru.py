@@ -33,8 +33,10 @@ class LRUCache(object):
             time_delta = now - self.item_list[item]
             print ("time delta is :{0}".format(time_delta))
             if time_delta.seconds > self.delta:
-                self.removeItem(item) #del self.item_list[item]
                 list += [item]
                 print ("deleted item is : {0}".format(item))
                 print ("send signal to main to delete the deployment")
+
+        for item in list:
+            self.removeItem(item) #del self.item_list[item]    
         return list

@@ -22,7 +22,7 @@ def new_deployment():
     retval = process_requests.process_requests(data["name"])
     for i in retval:
         print(i)
-        main.update_dep(i, 0)
+        main.update_dep("im" + i, 0)
     return data["name"]
 
 @app.route("/delete/deployments", methods=["POST"])

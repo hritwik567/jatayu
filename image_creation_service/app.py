@@ -32,7 +32,7 @@ def image_create_handler():
     zip_ref = zipfile.ZipFile("./temp.zip","r")
     zip_ref.extractall(os.path.join(os.getcwd(), "extracted_folder"))
 
-    f = open(os.path.join(os.getcwd(), "extracted_folder", "sourcepkg", "index.py"))
+    f = open(os.path.join(os.getcwd(), "extracted_folder", "index.py"))
     data = f.read()
     f.close()
 

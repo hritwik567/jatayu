@@ -29,11 +29,11 @@ def validate(req_data):
     zip_ref.extractall("extracted_file")
     flag1, flag2 = False, False
     for filename in os.listdir("extracted_file"):
-        for files in os.listdir("extracted_file/"+ filename):
-            if files == "requirements.txt":
-                flag1 = True
-            if files == "index.py":
-                flag2 = True
+        if filename == "index.py":
+            flag1 = True
+        if filename == "requirements.txt":
+            flag2 = True
+
     if flag1 and flag2:
         return True
     return False
@@ -83,4 +83,4 @@ def upload_function():
                 language=req_data.get('language')
                 )
 
-app.run(debug=True, port=6000)
+app.run(debug=True, port=6000, host='0.0.0.0')
