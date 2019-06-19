@@ -3,11 +3,11 @@ import json
 import base64, requests
 
 
-with open("./functions/sourcepkg.zip", "rb") as file:
+with open("./temp.zip", "rb") as file:
     bytes = file.read()
     encoded = base64.b64encode(bytes)
 encoded = encoded.decode('utf-8')
-body = {'name': "test_func", 'artifact': encoded, 'language': "python3"}  
+body = {'name': "test_func1", 'artifact': encoded, 'language': "python3"}
 myurl = "http://127.0.0.1:5000/upload"
 
 req = urllib.request.Request(myurl)
@@ -18,6 +18,9 @@ req.add_header('Content-Length', len(jsondataasbytes))
 print (jsondataasbytes)
 response = urllib.request.urlopen(req, jsondataasbytes)
 print (response)
+
+
+# 935aa054928b11e9912dacde48001122
 
 
 #FOR GET
@@ -33,6 +36,3 @@ r = requests.get(url = URL)
 data = r.json()
 print(data)
 """
-
-
-

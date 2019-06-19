@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import base64
+import uuid
 
 functions = None
 db = None
@@ -21,16 +22,22 @@ def add_db_entry(req_data, uuid):
         'state': 'active',
         'run_state': 'pending',
         'artifact': req_data.get('artifact'),
-        'language': req_data.get('language')
+        'language': req_data.get('language'),
+        'image_url':''
     }
     functions.insert_one(function)
 
+def update_entry(function_uuid,image_url):
+    functions=functions = get_functions_collection_instance()
+    uuid_value={'uuid' : uuid.UUID(function_uuid),}
+    update_values={"$set":{'image_url':image_url,'run_state':'running'}}
+    functions.update_one(uuid_value,update_values)
+
 def get_db_entry(function_uuid):
     functions = get_functions_collection_instance()
-    cursor = functions.find({'uuid' : function_uuid})
+    cursor = functions.find({'uuid' : uuid.UUID(function_uuid)})
     for document in cursor:
         del document['_id']
-        del document['artifact']
         return document
 
 def get_all_documents():
@@ -39,6 +46,5 @@ def get_all_documents():
     cursor = functions.find({})
     for document in cursor:
         del document['_id']
-        del document['artifact']
         function_list.append(document)
     return function_list
